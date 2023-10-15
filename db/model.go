@@ -44,3 +44,9 @@ type Abonne struct {
 	confianceAbonne int
 	idCategorie     string
 }
+
+type Ecrit struct {
+	IdEcrit   int
+	IdOuvrage int
+	IdAuteur  int
+}
