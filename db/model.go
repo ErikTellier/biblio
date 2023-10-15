@@ -32,3 +32,15 @@ type Ouvrage struct {
 	idType          string
 	idEditeur       int
 }
+
+type Abonne struct {
+	idAbonne        int
+	nomAbonne       string
+	prenomAbonne    string
+	telAbonne       string
+	mailAbonne      string
+	adresseAbonne   string
+	statusAbonne    bool
+	confianceAbonne int
+	idCategorie     string
+}
