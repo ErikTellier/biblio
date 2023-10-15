@@ -1,6 +1,6 @@
 package db
 
-type editeur struct {
+type Editeur struct {
 	idEditeur      int
 	nomEditeur     string
 	telEditeur     string
@@ -23,4 +23,12 @@ type Auteur struct {
 	telAuteur     string
 	mailAuteur    string
 	adresseAuteur string
+}
+
+type Ouvrage struct {
+	idOuvrage       int
+	titreOuvrage    string
+	parutionOuvrage string
+	idType          string
+	idEditeur       int
 }
