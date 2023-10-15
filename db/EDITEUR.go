@@ -1,58 +1,53 @@
 package db
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
-func CreateEditeur(db *sql.DB, nomEditeur, telEditeur, mailEditeur, adresseEditeur string) error {
-	_, err := db.Exec("INSERT INTO EDITEUR (NOM_EDITEUR, TEL_EDITEUR, MAIL_EDITEUR, ADRESSE_EDITEUR) VALUES (?, ?, ?, ?)", nomEditeur, telEditeur, mailEditeur, adresseEditeur)
+// CreateEditeur inserts a new editeur record into the database.
+func CreateEditeur(db *sql.DB, e editeur) error {
+	_, err := db.Exec("INSERT INTO EDITEUR (NOM_EDITEUR, TEL_EDITEUR, MAIL_EDITEUR, ADRESSE_EDITEUR) VALUES (?, ?, ?, ?)",
+		e.nomEditeur, e.telEditeur, e.mailEditeur, e.adresseEditeur)
 	return err
 }
 
-// Read all EDITEUR records
-func ReadEditeur(db *sql.DB) ([]int, []string, []string, []string, []string, error) {
+// Read all EDITEUR records and return slices of editeurs.
+func ReadEditeur(db *sql.DB) ([]editeur, error) {
 	rows, err := db.Query("SELECT ID_EDITEUR, NOM_EDITEUR, TEL_EDITEUR, MAIL_EDITEUR, ADRESSE_EDITEUR FROM EDITEUR")
 	if err != nil {
-		return nil, nil, nil, nil, nil, err
+		return nil, err
 	}
 	defer rows.Close()
 
-	var (
-		ids      []int
-		noms     []string
-		tels     []string
-		mails    []string
-		adresses []string
-	)
+	var editeurs []editeur
 
 	for rows.Next() {
-		var id int
-		var nom, tel, mail, adresse string
-		if err := rows.Scan(&id, &nom, &tel, &mail, &adresse); err != nil {
-			return nil, nil, nil, nil, nil, err
+		var e editeur
+		if err := rows.Scan(&e.idEditeur, &e.nomEditeur, &e.telEditeur, &e.mailEditeur, &e.adresseEditeur); err != nil {
+			return nil, err
 		}
-		ids = append(ids, id)
-		noms = append(noms, nom)
-		tels = append(tels, tel)
-		mails = append(mails, mail)
-		adresses = append(adresses, adresse)
+		editeurs = append(editeurs, e)
 	}
 
-	return ids, noms, tels, mails, adresses, nil
+	return editeurs, nil
 }
 
-// get an EDITEUR by its ID
-func GetEditeur(db *sql.DB, idEditeur int) (string, string, string, string, error) {
-	var nom, tel, mail, adresse string
-	err := db.QueryRow("SELECT NOM_EDITEUR, TEL_EDITEUR, MAIL_EDITEUR, ADRESSE_EDITEUR FROM EDITEUR WHERE ID_EDITEUR = ?", idEditeur).Scan(&nom, &tel, &mail, &adresse)
-	return nom, tel, mail, adresse, err
+// GetEditeur retrieves an editeur by its ID.
+func GetEditeur(db *sql.DB, idEditeur int) (editeur, error) {
+	var e editeur
+	err := db.QueryRow("SELECT ID_EDITEUR, NOM_EDITEUR, TEL_EDITEUR, MAIL_EDITEUR, ADRESSE_EDITEUR FROM EDITEUR WHERE ID_EDITEUR = ?", idEditeur).
+		Scan(&e.idEditeur, &e.nomEditeur, &e.telEditeur, &e.mailEditeur, &e.adresseEditeur)
+	return e, err
 }
 
-// Update an existing EDITEUR
-func UpdateEditeur(db *sql.DB, idEditeur int, newNom, newTel, newMail, newAdresse string) error {
-	_, err := db.Exec("UPDATE EDITEUR SET NOM_EDITEUR = ?, TEL_EDITEUR = ?, MAIL_EDITEUR = ?, ADRESSE_EDITEUR = ? WHERE ID_EDITEUR = ?", newNom, newTel, newMail, newAdresse, idEditeur)
+// Update an existing EDITEUR record.
+func UpdateEditeur(db *sql.DB, e editeur) error {
+	_, err := db.Exec("UPDATE EDITEUR SET NOM_EDITEUR = ?, TEL_EDITEUR = ?, MAIL_EDITEUR = ?, ADRESSE_EDITEUR = ? WHERE ID_EDITEUR = ?",
+		e.nomEditeur, e.telEditeur, e.mailEditeur, e.adresseEditeur, e.idEditeur)
 	return err
 }
 
-// Delete an EDITEUR
+// Delete an EDITEUR record by ID.
 func DeleteEditeur(db *sql.DB, idEditeur int) error {
 	_, err := db.Exec("DELETE FROM EDITEUR WHERE ID_EDITEUR = ?", idEditeur)
 	return err
