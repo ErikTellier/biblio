@@ -50,3 +50,11 @@ type Ecrit struct {
 	IdOuvrage int
 	IdAuteur  int
 }
+
+type Emprunter struct {
+	idEmprunt  int
+	idAbonne   int
+	idOuvrage  int
+	dateSortie string
+	dateRetour string
+}
