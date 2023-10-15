@@ -29,6 +29,13 @@ func ReadTypeOuvrage(db *sql.DB) ([]string, error) {
 	return types, nil
 }
 
+// Get a TYPE_OUVRAGE by its ID
+func GetTypeOuvrage(db *sql.DB, idType string) (string, error) {
+	var type_ouvrage string
+	err := db.QueryRow("SELECT ID_TYPE FROM TYPE_OUVRAGE WHERE ID_TYPE = ?", idType).Scan(&type_ouvrage)
+	return type_ouvrage, err
+}
+
 // Update an existing TYPE_OUVRAGE
 func UpdateTypeOuvrage(db *sql.DB, idType, newIdType string) error {
 	_, err := db.Exec("UPDATE TYPE_OUVRAGE SET ID_TYPE = ? WHERE ID_TYPE = ?", newIdType, idType)

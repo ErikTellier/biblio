@@ -27,6 +27,12 @@ func ReadCategorieAbonne(db *sql.DB) ([]string, error) {
 	return categories, nil
 }
 
+func GetCategorieAbonne(db *sql.DB, idCategorie string) (string, error) {
+	var categorie string
+	err := db.QueryRow("SELECT ID_CATEGORIE FROM CATEGORIE_ABONNE WHERE ID_CATEGORIE = ?", idCategorie).Scan(&categorie)
+	return categorie, err
+}
+
 func UpdateCategorieAbonne(db *sql.DB, idCategorie string, newIdCategorie string) error {
 	_, err := db.Exec("UPDATE CATEGORIE_ABONNE SET ID_CATEGORIE = ? WHERE ID_CATEGORIE = ?", newIdCategorie, idCategorie)
 	return err
