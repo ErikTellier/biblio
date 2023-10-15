@@ -15,3 +15,12 @@ type TypeOuvrage struct {
 type CategorieAbonne struct {
 	IdCategorie string
 }
+
+type Auteur struct {
+	idAuteur      int
+	nomAuteur     string
+	prenomAuteur  string
+	telAuteur     string
+	mailAuteur    string
+	adresseAuteur string
+}
