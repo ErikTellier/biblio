@@ -19,6 +19,15 @@ func main() {
 	router.HandleFunc("/ecrit", GetEcritHandler).Methods("GET")
 	router.HandleFunc("/emprunt", GetEmprunterHandler).Methods("GET")
 
+	router.HandleFunc("/abonne/{id}", GetAbonneByIdHandler).Methods("GET")
+	router.HandleFunc("/categorie_abonne/{id}", GetCategorieAbonneByIdHandler).Methods("GET")
+	router.HandleFunc("/type_ouvrage/{id}", GetTypeOuvrageByIdHandler).Methods("GET")
+	router.HandleFunc("/auteur/{id}", GetAuteurByIdHandler).Methods("GET")
+	router.HandleFunc("/editeur/{id}", GetEditeurByIdHandler).Methods("GET")
+	router.HandleFunc("/ouvrage/{id}", GetOuvrageByIdHandler).Methods("GET")
+	router.HandleFunc("/ecrit/{id}", GetEcritByIdHandler).Methods("GET")
+	router.HandleFunc("/emprunt/{id}", GetEmpruntByIdHandler).Methods("GET")
+
 	// POST
 	router.HandleFunc("/abonne", PostAbonneHandler).Methods("POST")
 	router.HandleFunc("/categorie_abonne", PostCategorieAbonneHandler).Methods("POST")
@@ -30,6 +39,14 @@ func main() {
 	router.HandleFunc("/emprunt", PostEmpruntHandler).Methods("POST")
 
 	// PUT
+	router.HandleFunc("/abonne/{id}", PutAbonneHandler).Methods("PUT")
+	//router.HandleFunc("/categorie_abonne/{id}", PutCategorieAbonneHandler).Methods("PUT") - Pas de modification de la clé primaire
+	//router.HandleFunc("/type_ouvrage/{id}", PutTypeOuvrageHandler).Methods("PUT") - Pas de modification de la clé primaire
+	router.HandleFunc("/auteur/{id}", PutAuteurHandler).Methods("PUT")
+	router.HandleFunc("/editeur/{id}", PutEditeurHandler).Methods("PUT")
+	router.HandleFunc("/ouvrage/{id}", PutOuvrageHandler).Methods("PUT")
+	router.HandleFunc("/ecrit/{id}", PutEcritHandler).Methods("PUT")
+	router.HandleFunc("/emprunt/{id}", PutEmpruntHandler).Methods("PUT")
 
 	// DELETE
 	router.HandleFunc("/abonne/{id}", DeleteAbonneHandler).Methods("DELETE")

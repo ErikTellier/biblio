@@ -30,6 +30,32 @@ func GetAllCategorieAbonnes(db *sql.DB) ([]CATEGORIE_ABONNE, error) {
 	return categorie_abonnes, nil
 }
 
+func GetCategorieAbonneById(db *sql.DB, id string) (CATEGORIE_ABONNE, error) {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "SELECT * FROM CATEGORIE_ABONNE WHERE ID_CATEGORIE = ?"
+	rows, err := db.Query(query, id)
+	if err != nil {
+		return CATEGORIE_ABONNE{}, err
+	}
+	defer rows.Close()
+
+	var categorie_abonne CATEGORIE_ABONNE
+
+	// Parcourez les lignes résultantes et mappez-les sur la structure ABONNE
+	for rows.Next() {
+		err := rows.Scan(&categorie_abonne.ID_CATEGORIE)
+		if err != nil {
+			return CATEGORIE_ABONNE{}, err
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return CATEGORIE_ABONNE{}, err
+	}
+
+	return categorie_abonne, nil
+}
+
 func DeleteCategorieAbonne(db *sql.DB, id string) error {
 	// Exécutez la requête SQL pour récupérer tous les abonnés
 	query := "DELETE FROM CATEGORIE_ABONNE WHERE ID_CATEGORIE = ?"

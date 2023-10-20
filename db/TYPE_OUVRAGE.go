@@ -30,6 +30,32 @@ func GetAllTypeOuvrage(db *sql.DB) ([]TYPE_OUVRAGE, error) {
 	return type_ouvrages, nil
 }
 
+func GetTypeOuvrageById(db *sql.DB, id string) (TYPE_OUVRAGE, error) {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "SELECT * FROM TYPE_OUVRAGE WHERE ID_TYPE = ?"
+	rows, err := db.Query(query, id)
+	if err != nil {
+		return TYPE_OUVRAGE{}, err
+	}
+	defer rows.Close()
+
+	var type_ouvrage TYPE_OUVRAGE
+
+	// Parcourez les lignes résultantes et mappez-les sur la structure ABONNE
+	for rows.Next() {
+		err := rows.Scan(&type_ouvrage.ID_TYPE)
+		if err != nil {
+			return TYPE_OUVRAGE{}, err
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return TYPE_OUVRAGE{}, err
+	}
+
+	return type_ouvrage, nil
+}
+
 func DeleteTypeOuvrage(db *sql.DB, id string) error {
 	// Exécutez la requête SQL pour récupérer tous les abonnés
 	query := "DELETE FROM TYPE_OUVRAGE WHERE ID_TYPE = ?"
