@@ -1,51 +1,51 @@
 package db
 
-import (
-	"database/sql"
-)
+import "database/sql"
 
-// Create a new TYPE_OUVRAGE record.
-func CreateTypeOuvrage(db *sql.DB, t TypeOuvrage) error {
-	_, err := db.Exec("INSERT INTO TYPE_OUVRAGE (ID_TYPE) VALUES (?)", t.IdType)
-	return err
-}
-
-// Read all TYPE_OUVRAGE records and return slices of TypeOuvrage.
-func ReadTypeOuvrage(db *sql.DB) ([]TypeOuvrage, error) {
-	rows, err := db.Query("SELECT ID_TYPE FROM TYPE_OUVRAGE")
+func GetAllTypeOuvrage(db *sql.DB) ([]TYPE_OUVRAGE, error) {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "SELECT * FROM TYPE_OUVRAGE"
+	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var types []TypeOuvrage
+	var type_ouvrages []TYPE_OUVRAGE
 
+	// Parcourez les lignes résultantes et mappez-les sur la structure ABONNE
 	for rows.Next() {
-		var t TypeOuvrage
-		if err := rows.Scan(&t.IdType); err != nil {
+		var type_ouvrage TYPE_OUVRAGE
+		err := rows.Scan(&type_ouvrage.ID_TYPE)
+		if err != nil {
 			return nil, err
 		}
-		types = append(types, t)
+		type_ouvrages = append(type_ouvrages, type_ouvrage)
 	}
 
-	return types, nil
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return type_ouvrages, nil
 }
 
-// Get a TYPE_OUVRAGE by its ID.
-func GetTypeOuvrage(db *sql.DB, idType string) (TypeOuvrage, error) {
-	var t TypeOuvrage
-	err := db.QueryRow("SELECT ID_TYPE FROM TYPE_OUVRAGE WHERE ID_TYPE = ?", idType).Scan(&t.IdType)
-	return t, err
+func DeleteTypeOuvrage(db *sql.DB, id string) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "DELETE FROM TYPE_OUVRAGE WHERE ID_TYPE = ?"
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// Update an existing TYPE_OUVRAGE record.
-func UpdateTypeOuvrage(db *sql.DB, t TypeOuvrage, newIdType string) error {
-	_, err := db.Exec("UPDATE TYPE_OUVRAGE SET ID_TYPE = ? WHERE ID_TYPE = ?", newIdType, t.IdType)
-	return err
-}
-
-// Delete a TYPE_OUVRAGE record by ID.
-func DeleteTypeOuvrage(db *sql.DB, idType string) error {
-	_, err := db.Exec("DELETE FROM TYPE_OUVRAGE WHERE ID_TYPE = ?", idType)
-	return err
+func PostTypeOuvrage(db *sql.DB, ouvrage TYPE_OUVRAGE) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "INSERT INTO TYPE_OUVRAGE (ID_TYPE) VALUES (?)"
+	_, err := db.Exec(query, ouvrage.ID_TYPE)
+	if err != nil {
+		return err
+	}
+	return nil
 }

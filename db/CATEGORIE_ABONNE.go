@@ -2,48 +2,50 @@ package db
 
 import "database/sql"
 
-// Create a new CATEGORIE_ABONNE record.
-func CreateCategorieAbonne(db *sql.DB, c CategorieAbonne) error {
-	_, err := db.Exec("INSERT INTO CATEGORIE_ABONNE (ID_CATEGORIE) VALUES (?)", c.IdCategorie)
-	return err
-}
-
-// Read all CATEGORIE_ABONNE records and return slices of CategorieAbonne.
-func ReadCategorieAbonne(db *sql.DB) ([]CategorieAbonne, error) {
-	rows, err := db.Query("SELECT ID_CATEGORIE FROM CATEGORIE_ABONNE")
+func GetAllCategorieAbonnes(db *sql.DB) ([]CATEGORIE_ABONNE, error) {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "SELECT * FROM CATEGORIE_ABONNE"
+	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var categories []CategorieAbonne
+	var categorie_abonnes []CATEGORIE_ABONNE
 
+	// Parcourez les lignes résultantes et mappez-les sur la structure ABONNE
 	for rows.Next() {
-		var c CategorieAbonne
-		if err := rows.Scan(&c.IdCategorie); err != nil {
+		var categorie_abonne CATEGORIE_ABONNE
+		err := rows.Scan(&categorie_abonne.ID_CATEGORIE)
+		if err != nil {
 			return nil, err
 		}
-		categories = append(categories, c)
+		categorie_abonnes = append(categorie_abonnes, categorie_abonne)
 	}
 
-	return categories, nil
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return categorie_abonnes, nil
 }
 
-// Get a CATEGORIE_ABONNE by its ID.
-func GetCategorieAbonne(db *sql.DB, idCategorie string) (CategorieAbonne, error) {
-	var c CategorieAbonne
-	err := db.QueryRow("SELECT ID_CATEGORIE FROM CATEGORIE_ABONNE WHERE ID_CATEGORIE = ?", idCategorie).Scan(&c.IdCategorie)
-	return c, err
+func DeleteCategorieAbonne(db *sql.DB, id string) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "DELETE FROM CATEGORIE_ABONNE WHERE ID_CATEGORIE = ?"
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// Update an existing CATEGORIE_ABONNE record.
-func UpdateCategorieAbonne(db *sql.DB, c CategorieAbonne, newIdCategorie string) error {
-	_, err := db.Exec("UPDATE CATEGORIE_ABONNE SET ID_CATEGORIE = ? WHERE ID_CATEGORIE = ?", newIdCategorie, c.IdCategorie)
-	return err
-}
-
-// Delete a CATEGORIE_ABONNE record by ID.
-func DeleteCategorieAbonne(db *sql.DB, idCategorie string) error {
-	_, err := db.Exec("DELETE FROM CATEGORIE_ABONNE WHERE ID_CATEGORIE = ?", idCategorie)
-	return err
+func PostCategorieAbonne(db *sql.DB, abonne CATEGORIE_ABONNE) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "INSERT INTO CATEGORIE_ABONNE (ID_CATEGORIE) VALUES (?)"
+	_, err := db.Exec(query, abonne.ID_CATEGORIE)
+	if err != nil {
+		return err
+	}
+	return nil
 }

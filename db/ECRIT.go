@@ -2,49 +2,41 @@ package db
 
 import "database/sql"
 
-// Create a new ECRIT record.
-func CreateEcrit(db *sql.DB, e Ecrit) error {
-	_, err := db.Exec("INSERT INTO ECRIT (ID_OUVRAGE, ID_AUTEUR) VALUES (?, ?)", e.IdOuvrage, e.IdAuteur)
-	return err
-}
-
-// Read all ECRIT records and return slices of Ecrit.
-func ReadEcrit(db *sql.DB) ([]Ecrit, error) {
-	rows, err := db.Query("SELECT ID_ECRIT, ID_OUVRAGE, ID_AUTEUR FROM ECRIT")
+func GetAllEcrit(db *sql.DB) ([]ECRIT, error) {
+	rows, err := db.Query("SELECT * FROM ECRIT")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var ecrits []Ecrit
-
+	var ecrits []ECRIT
 	for rows.Next() {
-		var e Ecrit
-		if err := rows.Scan(&e.IdEcrit, &e.IdOuvrage, &e.IdAuteur); err != nil {
+		var ecrit ECRIT
+		err := rows.Scan(&ecrit.ID_ECRIT, &ecrit.ID_OUVRAGE, &ecrit.ID_AUTEUR)
+		if err != nil {
 			return nil, err
 		}
-		ecrits = append(ecrits, e)
+		ecrits = append(ecrits, ecrit)
 	}
-
 	return ecrits, nil
 }
 
-// Get an ECRIT by its ID.
-func GetEcrit(db *sql.DB, idEcrit int) (Ecrit, error) {
-	var e Ecrit
-	err := db.QueryRow("SELECT ID_OUVRAGE, ID_AUTEUR FROM ECRIT WHERE ID_ECRIT = ?", idEcrit).Scan(&e.IdOuvrage, &e.IdAuteur)
-	e.IdEcrit = idEcrit
-	return e, err
+func DeleteEcrit(db *sql.DB, id int) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "DELETE FROM ECRIT WHERE ID_ECRIT = ?"
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// Update an existing ECRIT record.
-func UpdateEcrit(db *sql.DB, e Ecrit) error {
-	_, err := db.Exec("UPDATE ECRIT SET ID_OUVRAGE = ?, ID_AUTEUR = ? WHERE ID_ECRIT = ?", e.IdOuvrage, e.IdAuteur, e.IdEcrit)
-	return err
-}
-
-// Delete an ECRIT record by ID.
-func DeleteEcrit(db *sql.DB, idEcrit int) error {
-	_, err := db.Exec("DELETE FROM ECRIT WHERE ID_ECRIT = ?", idEcrit)
-	return err
+func PostEcrit(db *sql.DB, ecrit ECRIT) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "INSERT INTO ECRIT (ID_OUVRAGE, ID_AUTEUR) VALUES (?, ?)"
+	_, err := db.Exec(query, ecrit.ID_OUVRAGE, ecrit.ID_AUTEUR)
+	if err != nil {
+		return err
+	}
+	return nil
 }

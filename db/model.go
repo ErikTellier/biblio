@@ -1,60 +1,62 @@
 package db
 
-type Editeur struct {
-	idEditeur      int
-	nomEditeur     string
-	telEditeur     string
-	mailEditeur    string
-	adresseEditeur string
+import "database/sql"
+
+type CATEGORIE_ABONNE struct {
+	ID_CATEGORIE string //PK
 }
 
-type TypeOuvrage struct {
-	IdType string
+type ABONNE struct {
+	ID_ABONNE        int //PK : should not be set when creating a new ABONNE
+	NOM_ABONNE       string
+	PRENOM_ABONNE    string
+	TEL_ABONNE       string
+	MAIL_ABONNE      string
+	ADRESSE_ABONNE   string
+	STATUS_ABONNE    bool   //should not be set when creating a new ABONNE
+	CONFIANCE_ABONNE int    //should not be set when creating a new ABONNE
+	ID_CATEGORIE     string //FK -> CATEGORIE_ABONNE : ID_CATEGORIE
 }
 
-type CategorieAbonne struct {
-	IdCategorie string
+type TYPE_OUVRAGE struct {
+	ID_TYPE string //PK
 }
 
-type Auteur struct {
-	idAuteur      int
-	nomAuteur     string
-	prenomAuteur  string
-	telAuteur     string
-	mailAuteur    string
-	adresseAuteur string
+type AUTEUR struct {
+	ID_AUTEUR      int //PK : should not be set when creating a new AUTEUR
+	NOM_AUTEUR     string
+	PRENOM_AUTEUR  string
+	TEL_AUTEUR     string
+	MAIL_AUTEUR    string
+	ADRESSE_AUTEUR string
 }
 
-type Ouvrage struct {
-	idOuvrage       int
-	titreOuvrage    string
-	parutionOuvrage string
-	idType          string
-	idEditeur       int
+type EDITEUR struct {
+	ID_EDITEUR      int //PK : should not be set when creating a new EDITEUR
+	NOM_EDITEUR     string
+	TEL_EDITEUR     string
+	MAIL_EDITEUR    string
+	ADRESSE_EDITEUR string
 }
 
-type Abonne struct {
-	idAbonne        int
-	nomAbonne       string
-	prenomAbonne    string
-	telAbonne       string
-	mailAbonne      string
-	adresseAbonne   string
-	statusAbonne    bool
-	confianceAbonne int
-	idCategorie     string
+type OUVRAGE struct {
+	ID_OUVRAGE       int //PK : should not be set when creating a new OUVRAGE
+	TITRE_OUVRAGE    string
+	PARUTION_OUVRAGE string
+	ID_TYPE          string //FK -> TYPE_OUVRAGE : ID_TYPE_OUVRAGE
+	ID_EDITEUR       int    //FK -> EDITEUR : ID_EDITEUR
 }
 
-type Ecrit struct {
-	IdEcrit   int
-	IdOuvrage int
-	IdAuteur  int
+type ECRIT struct {
+	ID_ECRIT   int //PK : should not be set when creating a new ECRIT
+	ID_OUVRAGE int //FK -> OUVRAGE : ID_OUVRAGE
+	ID_AUTEUR  int //FK -> AUTEUR : ID_AUTEUR
 }
 
-type Emprunter struct {
-	idEmprunt  int
-	idAbonne   int
-	idOuvrage  int
-	dateSortie string
-	dateRetour string
+type EMPRUNTER struct {
+	ID_EMPRUNT  int            //PK : should not be set when creating a new EMPRUNTER
+	ID_OUVRAGE  int            //FK -> OUVRAGE : ID_OUVRAGE
+	ID_ABONNE   int            //FK -> ABONNE : ID_ABONNE
+	DATE_SORTIE string         //should not be set when creating a new EMPRUNTER
+	DATE_RETOUR sql.NullString //should not be set when creating a new EMPRUNTER
 }

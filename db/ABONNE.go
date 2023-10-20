@@ -2,52 +2,50 @@ package db
 
 import "database/sql"
 
-// Create a new ABONNE record.
-func CreateAbonne(db *sql.DB, a Abonne) error {
-	_, err := db.Exec("INSERT INTO ABONNE (NOM_ABONNE, PRENOM_ABONNE, TEL_ABONNE, MAIL_ABONNE, ADRESSE_ABONNE, STATUS_ABONNE, CONFIANCE_ABONNE, ID_CATEGORIE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-		a.nomAbonne, a.prenomAbonne, a.telAbonne, a.mailAbonne, a.adresseAbonne, a.statusAbonne, a.confianceAbonne, a.idCategorie)
-	return err
-}
-
-// Read all ABONNE records and return slices of Abonne.
-func ReadAbonne(db *sql.DB) ([]Abonne, error) {
-	rows, err := db.Query("SELECT ID_ABONNE, NOM_ABONNE, PRENOM_ABONNE, TEL_ABONNE, MAIL_ABONNE, ADRESSE_ABONNE, STATUS_ABONNE, CONFIANCE_ABONNE, ID_CATEGORIE FROM ABONNE")
+func GetAllAbonnes(db *sql.DB) ([]ABONNE, error) {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "SELECT * FROM ABONNE"
+	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var abonnes []Abonne
+	var abonnes []ABONNE
 
+	// Parcourez les lignes résultantes et mappez-les sur la structure ABONNE
 	for rows.Next() {
-		var a Abonne
-		if err := rows.Scan(&a.idAbonne, &a.nomAbonne, &a.prenomAbonne, &a.telAbonne, &a.mailAbonne, &a.adresseAbonne, &a.statusAbonne, &a.confianceAbonne, &a.idCategorie); err != nil {
+		var abonne ABONNE
+		err := rows.Scan(&abonne.ID_ABONNE, &abonne.NOM_ABONNE, &abonne.PRENOM_ABONNE, &abonne.TEL_ABONNE, &abonne.MAIL_ABONNE, &abonne.ADRESSE_ABONNE, &abonne.STATUS_ABONNE, &abonne.CONFIANCE_ABONNE, &abonne.ID_CATEGORIE)
+		if err != nil {
 			return nil, err
 		}
-		abonnes = append(abonnes, a)
+		abonnes = append(abonnes, abonne)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return abonnes, nil
 }
 
-// Get an ABONNE by its ID.
-func GetAbonne(db *sql.DB, idAbonne int) (Abonne, error) {
-	var a Abonne
-	err := db.QueryRow("SELECT NOM_ABONNE, PRENOM_ABONNE, TEL_ABONNE, MAIL_ABONNE, ADRESSE_ABONNE, STATUS_ABONNE, CONFIANCE_ABONNE, ID_CATEGORIE FROM ABONNE WHERE ID_ABONNE = ?", idAbonne).
-		Scan(&a.nomAbonne, &a.prenomAbonne, &a.telAbonne, &a.mailAbonne, &a.adresseAbonne, &a.statusAbonne, &a.confianceAbonne, &a.idCategorie)
-	a.idAbonne = idAbonne
-	return a, err
+func DeleteAbonne(db *sql.DB, id int) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "DELETE FROM ABONNE WHERE ID_ABONNE = ?"
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// Update an existing ABONNE record.
-func UpdateAbonne(db *sql.DB, a Abonne) error {
-	_, err := db.Exec("UPDATE ABONNE SET NOM_ABONNE = ?, PRENOM_ABONNE = ?, TEL_ABONNE = ?, MAIL_ABONNE = ?, ADRESSE_ABONNE = ?, STATUS_ABONNE = ?, CONFIANCE_ABONNE = ?, ID_CATEGORIE = ? WHERE ID_ABONNE = ?",
-		a.nomAbonne, a.prenomAbonne, a.telAbonne, a.mailAbonne, a.adresseAbonne, a.statusAbonne, a.confianceAbonne, a.idCategorie, a.idAbonne)
-	return err
-}
-
-// Delete an ABONNE record by ID.
-func DeleteAbonne(db *sql.DB, idAbonne int) error {
-	_, err := db.Exec("DELETE FROM ABONNE WHERE ID_ABONNE = ?", idAbonne)
-	return err
+func PostAbonne(db *sql.DB, abonne ABONNE) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "INSERT INTO ABONNE (NOM_ABONNE, PRENOM_ABONNE, TEL_ABONNE, MAIL_ABONNE, ADRESSE_ABONNE, ID_CATEGORIE) VALUES (?, ?, ?, ?, ?, ?)"
+	_, err := db.Exec(query, abonne.NOM_ABONNE, abonne.PRENOM_ABONNE, abonne.TEL_ABONNE, abonne.MAIL_ABONNE, abonne.ADRESSE_ABONNE, abonne.ID_CATEGORIE)
+	if err != nil {
+		return err
+	}
+	return nil
 }

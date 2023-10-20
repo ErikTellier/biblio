@@ -2,52 +2,50 @@ package db
 
 import "database/sql"
 
-// Create a new AUTEUR record.
-func CreateAuteur(db *sql.DB, a Auteur) error {
-	_, err := db.Exec("INSERT INTO AUTEUR (NOM_AUTEUR, PRENOM_AUTEUR, TEL_AUTEUR, MAIL_AUTEUR, ADRESSE_AUTEUR) VALUES (?, ?, ?, ?, ?)",
-		a.nomAuteur, a.prenomAuteur, a.telAuteur, a.mailAuteur, a.adresseAuteur)
-	return err
-}
-
-// Read all AUTEUR records and return slices of Auteur.
-func ReadAuteur(db *sql.DB) ([]Auteur, error) {
-	rows, err := db.Query("SELECT ID_AUTEUR, NOM_AUTEUR, PRENOM_AUTEUR, TEL_AUTEUR, MAIL_AUTEUR, ADRESSE_AUTEUR FROM AUTEUR")
+func GetAllAuteur(db *sql.DB) ([]AUTEUR, error) {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "SELECT * FROM AUTEUR"
+	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var auteurs []Auteur
+	var auteurs []AUTEUR
 
+	// Parcourez les lignes résultantes et mappez-les sur la structure ABONNE
 	for rows.Next() {
-		var a Auteur
-		if err := rows.Scan(&a.idAuteur, &a.nomAuteur, &a.prenomAuteur, &a.telAuteur, &a.mailAuteur, &a.adresseAuteur); err != nil {
+		var auteur AUTEUR
+		err := rows.Scan(&auteur.ID_AUTEUR, &auteur.NOM_AUTEUR, &auteur.PRENOM_AUTEUR, &auteur.TEL_AUTEUR, &auteur.MAIL_AUTEUR, &auteur.ADRESSE_AUTEUR)
+		if err != nil {
 			return nil, err
 		}
-		auteurs = append(auteurs, a)
+		auteurs = append(auteurs, auteur)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return auteurs, nil
 }
 
-// Get an AUTEUR by its ID.
-func GetAuteur(db *sql.DB, idAuteur int) (Auteur, error) {
-	var a Auteur
-	err := db.QueryRow("SELECT NOM_AUTEUR, PRENOM_AUTEUR, TEL_AUTEUR, MAIL_AUTEUR, ADRESSE_AUTEUR FROM AUTEUR WHERE ID_AUTEUR = ?", idAuteur).
-		Scan(&a.nomAuteur, &a.prenomAuteur, &a.telAuteur, &a.mailAuteur, &a.adresseAuteur)
-	a.idAuteur = idAuteur
-	return a, err
+func DeleteAuteur(db *sql.DB, id int) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "DELETE FROM AUTEUR WHERE ID_AUTEUR = ?"
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// Update an existing AUTEUR record.
-func UpdateAuteur(db *sql.DB, a Auteur) error {
-	_, err := db.Exec("UPDATE AUTEUR SET NOM_AUTEUR = ?, PRENOM_AUTEUR = ?, TEL_AUTEUR = ?, MAIL_AUTEUR = ?, ADRESSE_AUTEUR = ? WHERE ID_AUTEUR = ?",
-		a.nomAuteur, a.prenomAuteur, a.telAuteur, a.mailAuteur, a.adresseAuteur, a.idAuteur)
-	return err
-}
-
-// Delete an AUTEUR record by ID.
-func DeleteAuteur(db *sql.DB, idAuteur int) error {
-	_, err := db.Exec("DELETE FROM AUTEUR WHERE ID_AUTEUR = ?", idAuteur)
-	return err
+func PostAuteur(db *sql.DB, auteur AUTEUR) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "INSERT INTO AUTEUR (NOM_AUTEUR, PRENOM_AUTEUR, TEL_AUTEUR, MAIL_AUTEUR, ADRESSE_AUTEUR) VALUES (?, ?, ?, ?, ?)"
+	_, err := db.Exec(query, auteur.NOM_AUTEUR, auteur.PRENOM_AUTEUR, auteur.TEL_AUTEUR, auteur.MAIL_AUTEUR, auteur.ADRESSE_AUTEUR)
+	if err != nil {
+		return err
+	}
+	return nil
 }
