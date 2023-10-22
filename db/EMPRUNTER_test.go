@@ -169,3 +169,48 @@ func TestPostEmprunter(t *testing.T) {
 	}
 
 }
+
+func TestPutEmprunter(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestEmprunter(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	emprunter := EMPRUNTER{
+		ID_EMPRUNT:  2,
+		ID_OUVRAGE:  2,
+		ID_ABONNE:   2,
+		DATE_SORTIE: "2023-02-02",
+	}
+
+	err = PutEmprunter(testDB, emprunter)
+	if err != nil {
+		t.Fatalf("Erreur dans PutEmprunter : %v", err)
+	}
+
+	emprunter, err = GetEmprunterById(testDB, 2)
+	if err != nil {
+		t.Fatalf("Erreur dans GetEmprunterById : %v", err)
+	}
+
+	if emprunter.ID_OUVRAGE != 2 {
+		t.Errorf("La valeur de l'ID_OUVRAGE ne correspond pas à celle attendue.")
+	}
+}
+
+func TestRetourEmprunter(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestEmprunter(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	err = RetourEmprunter(testDB, 2)
+	if err != nil {
+		t.Fatalf("Erreur dans RetourEmprunter : %v", err)
+	}
+
+}

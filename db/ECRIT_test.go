@@ -155,3 +155,39 @@ func TestPostEcrit(t *testing.T) {
 	}
 
 }
+
+func TestPutEcrit(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestEcrit(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	ecrit := ECRIT{
+		ID_ECRIT:   2,
+		ID_OUVRAGE: 2,
+		ID_AUTEUR:  2,
+	}
+
+	err = PutEcrit(testDB, ecrit)
+	if err != nil {
+		t.Fatalf("Erreur dans PutEcrit : %v", err)
+	}
+
+	ecrits, err := GetAllEcrit(testDB)
+	if err != nil {
+		t.Fatalf("Erreur dans GetAllEcrit : %v", err)
+	}
+
+	if len(ecrits) != 3 {
+		t.Errorf("Le nombre d'écrits ne correspond pas à celui attendu.")
+	}
+
+	expectedIDs := []int{1, 2, 3}
+	for i, ecrit := range ecrits {
+		if ecrit.ID_ECRIT != expectedIDs[i] {
+			t.Errorf("La valeur de l'ID_ECRIT ne correspond pas à celle attendue.")
+		}
+	}
+}

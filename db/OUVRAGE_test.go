@@ -137,3 +137,34 @@ func TestPostOuvrage(t *testing.T) {
 		t.Errorf("Le nombre d'ouvrages ne correspond pas à celui attendu.")
 	}
 }
+
+func TestPutOuvrage(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestOuvrages(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	ouvrage := OUVRAGE{
+		ID_OUVRAGE:       2,
+		TITRE_OUVRAGE:    "titre4",
+		PARUTION_OUVRAGE: "2023-02-01",
+		ID_TYPE:          "type1",
+		ID_EDITEUR:       1,
+	}
+
+	err = PutOuvrage(testDB, ouvrage)
+	if err != nil {
+		t.Fatalf("Erreur dans PutOuvrage : %v", err)
+	}
+
+	ouvrages, err := GetAllOuvrage(testDB)
+	if err != nil {
+		t.Fatalf("Erreur dans GetAllOuvrage : %v", err)
+	}
+
+	if len(ouvrages) != 3 {
+		t.Errorf("Le nombre d'ouvrages ne correspond pas à celui attendu.")
+	}
+}

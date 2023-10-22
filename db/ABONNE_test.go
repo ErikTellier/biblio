@@ -114,3 +114,33 @@ func TestPostAbonne(t *testing.T) {
 	}
 
 }
+
+func TestPutAbonne(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestAbonne(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	err = PutAbonne(testDB, ABONNE{ID_ABONNE: 1, NOM_ABONNE: "nom1", PRENOM_ABONNE: "prenom1", TEL_ABONNE: "tel1", MAIL_ABONNE: "mail1", ADRESSE_ABONNE: "adresse1", ID_CATEGORIE: "1"})
+	if err != nil {
+		t.Fatalf("Erreur dans PutAbonne : %v", err)
+	}
+
+	abonnes, err := GetAllAbonnes(testDB)
+	if err != nil {
+		t.Fatalf("Erreur dans GetAllAbonnes : %v", err)
+	}
+
+	if len(abonnes) != 3 {
+		t.Errorf("Le nombre d'abonnés ne correspond pas à celui attendu.")
+	}
+
+	expectedIDs := []int{1, 2, 3}
+	for i, abonne := range abonnes {
+		if abonne.ID_ABONNE != expectedIDs[i] {
+			t.Errorf("La valeur de l'ID_ABONNE ne correspond pas à celle attendue.")
+		}
+	}
+}

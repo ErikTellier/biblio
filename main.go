@@ -114,6 +114,9 @@ func main() {
 	apiRouter.HandleFunc("/api/ecrit/{id}", DeleteEcritHandler).Methods("DELETE")
 	apiRouter.HandleFunc("/api/emprunt/{id}", DeleteEmpruntHandler).Methods("DELETE")
 
+	//special case
+	apiRouter.HandleFunc("/api/retour/{id}", RetourEmprunterHandler).Methods("PUT")
+
 	apiRouter.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 
 	log.Println("Server started on :8080")

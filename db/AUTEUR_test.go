@@ -107,3 +107,35 @@ func TestPostAuteur(t *testing.T) {
 	}
 
 }
+
+func TestPutAuteur(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestAuteur(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	auteur := AUTEUR{ID_AUTEUR: 2, NOM_AUTEUR: "nom2", PRENOM_AUTEUR: "prenom2", TEL_AUTEUR: "tel2", MAIL_AUTEUR: "mail2", ADRESSE_AUTEUR: "adresse2"}
+
+	err = PutAuteur(testDB, auteur)
+	if err != nil {
+		t.Fatalf("Erreur dans PutAuteur : %v", err)
+	}
+
+	auteurs, err := GetAllAuteur(testDB)
+	if err != nil {
+		t.Fatalf("Erreur dans GetAllAuteur : %v", err)
+	}
+
+	if len(auteurs) != 3 {
+		t.Errorf("Le nombre d'auteurs ne correspond pas à celui attendu.")
+	}
+
+	expectedIDs := []int{1, 2, 3}
+	for i, auteur := range auteurs {
+		if auteur.ID_AUTEUR != expectedIDs[i] {
+			t.Errorf("La valeur de l'ID_AUTEUR ne correspond pas à celle attendue.")
+		}
+	}
+}

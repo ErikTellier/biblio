@@ -107,3 +107,35 @@ func TestPostEditeur(t *testing.T) {
 	}
 
 }
+
+func TestPutEditeur(t *testing.T) {
+	testDB, err := InitTestDB()
+
+	err = createTestEditeurs(testDB)
+	if err != nil {
+		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
+	}
+
+	editeur := EDITEUR{ID_EDITEUR: 2, NOM_EDITEUR: "nom", TEL_EDITEUR: "tel", MAIL_EDITEUR: "mail", ADRESSE_EDITEUR: "adresse"}
+
+	err = PutEditeur(testDB, editeur)
+	if err != nil {
+		t.Fatalf("Erreur dans PutEditeur : %v", err)
+	}
+
+	editeurs, err := GetAllEditeur(testDB)
+	if err != nil {
+		t.Fatalf("Erreur dans GetAllEditeur : %v", err)
+	}
+
+	if len(editeurs) != 3 {
+		t.Errorf("Le nombre d'éditeurs ne correspond pas à celui attendu.")
+	}
+
+	expectedIDs := []int{1, 2, 3}
+	for i, editeur := range editeurs {
+		if editeur.ID_EDITEUR != expectedIDs[i] {
+			t.Errorf("La valeur de l'ID_EDITEUR ne correspond pas à celle attendue.")
+		}
+	}
+}

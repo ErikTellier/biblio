@@ -67,3 +67,13 @@ func PutEmprunter(db *sql.DB, emprunter EMPRUNTER) error {
 	}
 	return nil
 }
+
+func RetourEmprunter(db *sql.DB, id int) error {
+	// Exécutez la requête SQL pour récupérer tous les abonnés
+	query := "UPDATE EMPRUNTER SET DATE_RETOUR = CURDATE() WHERE ID_EMPRUNT = ?"
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
