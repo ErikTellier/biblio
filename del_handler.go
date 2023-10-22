@@ -2,19 +2,13 @@ package main
 
 import (
 	"biblioV2/db"
+	"database/sql"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func DeleteAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
-
+func DeleteAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	vars := mux.Vars(r)
 	idStr := vars["id"]
 	id, err := strconv.Atoi(idStr)
@@ -30,49 +24,31 @@ func DeleteAbonneHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteCategorieAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteCategorieAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]
 
-	err = db.DeleteCategorieAbonne(t, idStr)
+	err := db.DeleteCategorieAbonne(t, idStr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
-func DeleteTypeOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteTypeOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]
 
-	err = db.DeleteTypeOuvrage(t, idStr)
+	err := db.DeleteTypeOuvrage(t, idStr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
-func DeleteAuteurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]
@@ -89,13 +65,7 @@ func DeleteAuteurHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteEditeurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]
@@ -112,13 +82,7 @@ func DeleteEditeurHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]
@@ -135,13 +99,7 @@ func DeleteOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteEcritHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]
@@ -158,13 +116,7 @@ func DeleteEcritHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteEmpruntHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func DeleteEmpruntHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	vars := mux.Vars(r)
 	idStr := vars["id"]

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"biblioV2/db"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"log"
@@ -65,57 +67,63 @@ func main() {
 	apiRouter := mux.NewRouter()
 	//apiRouter.Use(AuthMiddleware)
 
-	// GET
-	apiRouter.HandleFunc("/api/abonne", GetAbonneHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/categorie_abonne", GetCategorieAbonneHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/type_ouvrage", GetTypeOuvrageHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/auteur", GetAuteurHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/editeur", GetEditeurHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/ouvrage", GetOuvrageHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/ecrit", GetEcritHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/emprunt", GetEmprunterHandler).Methods("GET")
+	t, err := db.OpenDBConnection()
+	if err != nil {
+		fmt.Errorf("error while opening database connection: %v", err)
+	}
+	defer t.Close()
 
-	apiRouter.HandleFunc("/api/abonne/{id}", GetAbonneByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/categorie_abonne/{id}", GetCategorieAbonneByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/type_ouvrage/{id}", GetTypeOuvrageByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/auteur/{id}", GetAuteurByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/editeur/{id}", GetEditeurByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/ouvrage/{id}", GetOuvrageByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/ecrit/{id}", GetEcritByIdHandler).Methods("GET")
-	apiRouter.HandleFunc("/api/emprunt/{id}", GetEmpruntByIdHandler).Methods("GET")
+	// GET
+	apiRouter.HandleFunc("/api/abonne", func(w http.ResponseWriter, r *http.Request) { GetAbonneHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/categorie_abonne", func(w http.ResponseWriter, r *http.Request) { GetCategorieAbonneHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/type_ouvrage", func(w http.ResponseWriter, r *http.Request) { GetTypeOuvrageHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/auteur", func(w http.ResponseWriter, r *http.Request) { GetAuteurHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/editeur", func(w http.ResponseWriter, r *http.Request) { GetEditeurHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/ouvrage", func(w http.ResponseWriter, r *http.Request) { GetOuvrageHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/ecrit", func(w http.ResponseWriter, r *http.Request) { GetEcritHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/emprunt", func(w http.ResponseWriter, r *http.Request) { GetEmprunterHandler(w, r, t) }).Methods("GET")
+
+	apiRouter.HandleFunc("/api/abonne/{id}", func(w http.ResponseWriter, r *http.Request) { GetAbonneByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/categorie_abonne/{id}", func(w http.ResponseWriter, r *http.Request) { GetCategorieAbonneByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/type_ouvrage/{id}", func(w http.ResponseWriter, r *http.Request) { GetTypeOuvrageByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/auteur/{id}", func(w http.ResponseWriter, r *http.Request) { GetAuteurByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/editeur/{id}", func(w http.ResponseWriter, r *http.Request) { GetEditeurByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/ouvrage/{id}", func(w http.ResponseWriter, r *http.Request) { GetOuvrageByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/ecrit/{id}", func(w http.ResponseWriter, r *http.Request) { GetEcritByIdHandler(w, r, t) }).Methods("GET")
+	apiRouter.HandleFunc("/api/emprunt/{id}", func(w http.ResponseWriter, r *http.Request) { GetEmpruntByIdHandler(w, r, t) }).Methods("GET")
 
 	// POST
-	apiRouter.HandleFunc("/api/abonne", PostAbonneHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/categorie_abonne", PostCategorieAbonneHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/type_ouvrage", PostTypeOuvrageHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/auteur", PostAuteurHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/editeur", PostEditeurHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/ouvrage", PostOuvrageHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/ecrit", PostEcritHandler).Methods("POST")
-	apiRouter.HandleFunc("/api/emprunt", PostEmpruntHandler).Methods("POST")
+	apiRouter.HandleFunc("/api/abonne", func(w http.ResponseWriter, r *http.Request) { PostAbonneHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/categorie_abonne", func(w http.ResponseWriter, r *http.Request) { PostCategorieAbonneHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/type_ouvrage", func(w http.ResponseWriter, r *http.Request) { PostTypeOuvrageHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/auteur", func(w http.ResponseWriter, r *http.Request) { PostAuteurHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/editeur", func(w http.ResponseWriter, r *http.Request) { PostEditeurHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/ouvrage", func(w http.ResponseWriter, r *http.Request) { PostOuvrageHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/ecrit", func(w http.ResponseWriter, r *http.Request) { PostEcritHandler(w, r, t) }).Methods("POST")
+	apiRouter.HandleFunc("/api/emprunt", func(w http.ResponseWriter, r *http.Request) { PostEmpruntHandler(w, r, t) }).Methods("POST")
 
 	// PUT
-	apiRouter.HandleFunc("/api/abonne/{id}", PutAbonneHandler).Methods("PUT")
+	apiRouter.HandleFunc("/api/abonne/{id}", func(w http.ResponseWriter, r *http.Request) { PutAbonneHandler(w, r, t) }).Methods("PUT")
 	//router.HandleFunc("/categorie_abonne/{id}", PutCategorieAbonneHandler).Methods("PUT") - Pas de modification de la clé primaire
 	//router.HandleFunc("/type_ouvrage/{id}", PutTypeOuvrageHandler).Methods("PUT") - Pas de modification de la clé primaire
-	apiRouter.HandleFunc("/api/auteur/{id}", PutAuteurHandler).Methods("PUT")
-	apiRouter.HandleFunc("/api/editeur/{id}", PutEditeurHandler).Methods("PUT")
-	apiRouter.HandleFunc("/api/ouvrage/{id}", PutOuvrageHandler).Methods("PUT")
-	apiRouter.HandleFunc("/api/ecrit/{id}", PutEcritHandler).Methods("PUT")
-	apiRouter.HandleFunc("/api/emprunt/{id}", PutEmpruntHandler).Methods("PUT")
+	apiRouter.HandleFunc("/api/auteur/{id}", func(w http.ResponseWriter, r *http.Request) { PutAuteurHandler(w, r, t) }).Methods("PUT")
+	apiRouter.HandleFunc("/api/editeur/{id}", func(w http.ResponseWriter, r *http.Request) { PutEditeurHandler(w, r, t) }).Methods("PUT")
+	apiRouter.HandleFunc("/api/ouvrage/{id}", func(w http.ResponseWriter, r *http.Request) { PutOuvrageHandler(w, r, t) }).Methods("PUT")
+	apiRouter.HandleFunc("/api/ecrit/{id}", func(w http.ResponseWriter, r *http.Request) { PutEcritHandler(w, r, t) }).Methods("PUT")
+	apiRouter.HandleFunc("/api/emprunt/{id}", func(w http.ResponseWriter, r *http.Request) { PutEmpruntHandler(w, r, t) }).Methods("PUT")
 
 	// DELETE
-	apiRouter.HandleFunc("/api/abonne/{id}", DeleteAbonneHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/categorie_abonne/{id}", DeleteCategorieAbonneHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/type_ouvrage/{id}", DeleteTypeOuvrageHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/auteur/{id}", DeleteAuteurHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/editeur/{id}", DeleteEditeurHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/ouvrage/{id}", DeleteOuvrageHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/ecrit/{id}", DeleteEcritHandler).Methods("DELETE")
-	apiRouter.HandleFunc("/api/emprunt/{id}", DeleteEmpruntHandler).Methods("DELETE")
+	apiRouter.HandleFunc("/api/abonne/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteAbonneHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/categorie_abonne/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteCategorieAbonneHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/type_ouvrage/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteTypeOuvrageHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/auteur/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteAuteurHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/editeur/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteEditeurHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/ouvrage/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteOuvrageHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/ecrit/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteEcritHandler(w, r, t) }).Methods("DELETE")
+	apiRouter.HandleFunc("/api/emprunt/{id}", func(w http.ResponseWriter, r *http.Request) { DeleteEmpruntHandler(w, r, t) }).Methods("DELETE")
 
 	//special case
-	apiRouter.HandleFunc("/api/retour/{id}", RetourEmprunterHandler).Methods("PUT")
+	apiRouter.HandleFunc("/api/retour/{id}", func(w http.ResponseWriter, r *http.Request) { RetourEmprunterHandler(w, r, t) }).Methods("PUT")
 
 	apiRouter.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 

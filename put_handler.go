@@ -2,21 +2,14 @@ package main
 
 import (
 	"biblioV2/db"
+	"database/sql"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func PutAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
-
+func PutAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
@@ -45,14 +38,7 @@ func PutAbonneHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func PutAuteurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func PutAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -82,14 +68,7 @@ func PutAuteurHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func PutEditeurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func PutEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -119,14 +98,7 @@ func PutEditeurHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func PutOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func PutOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -156,14 +128,7 @@ func PutOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func PutEcritHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func PutEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -193,14 +158,7 @@ func PutEcritHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func PutEmpruntHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func PutEmpruntHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]

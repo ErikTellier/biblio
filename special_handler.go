@@ -2,19 +2,13 @@ package main
 
 import (
 	"biblioV2/db"
+	"database/sql"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func RetourEmprunterHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func RetourEmprunterHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]

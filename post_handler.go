@@ -2,17 +2,12 @@ package main
 
 import (
 	"biblioV2/db"
+	"database/sql"
 	"encoding/json"
 	"net/http"
 )
 
-func PostAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -27,7 +22,7 @@ func PostAbonneHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostAbonne(t, abonne)
+	err := db.PostAbonne(t, abonne)
 	if err != nil {
 		http.Error(w, "Failed to insert ABONNE data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -37,13 +32,7 @@ func PostAbonneHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostCategorieAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostCategorieAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -58,7 +47,7 @@ func PostCategorieAbonneHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostCategorieAbonne(t, categorie_abonne)
+	err := db.PostCategorieAbonne(t, categorie_abonne)
 	if err != nil {
 		http.Error(w, "Failed to insert CATEGORIE_ABONNE data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -68,13 +57,7 @@ func PostCategorieAbonneHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostTypeOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostTypeOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -89,7 +72,7 @@ func PostTypeOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostTypeOuvrage(t, type_ouvrage)
+	err := db.PostTypeOuvrage(t, type_ouvrage)
 	if err != nil {
 		http.Error(w, "Failed to insert TYPE_OUVRAGE data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -99,13 +82,7 @@ func PostTypeOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostAuteurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -120,7 +97,7 @@ func PostAuteurHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostAuteur(t, auteur)
+	err := db.PostAuteur(t, auteur)
 	if err != nil {
 		http.Error(w, "Failed to insert AUTEUR data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -130,13 +107,7 @@ func PostAuteurHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostEditeurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -151,7 +122,7 @@ func PostEditeurHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostEditeur(t, editeur)
+	err := db.PostEditeur(t, editeur)
 	if err != nil {
 		http.Error(w, "Failed to insert EDITEUR data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -161,13 +132,7 @@ func PostEditeurHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -182,7 +147,7 @@ func PostOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostOuvrage(t, ouvrage)
+	err := db.PostOuvrage(t, ouvrage)
 	if err != nil {
 		http.Error(w, "Failed to insert OUVRAGE data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -192,13 +157,7 @@ func PostOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostEcritHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -213,7 +172,7 @@ func PostEcritHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostEcrit(t, ecrit)
+	err := db.PostEcrit(t, ecrit)
 	if err != nil {
 		http.Error(w, "Failed to insert ECRIT data: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -223,13 +182,7 @@ func PostEcritHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func PostEmpruntHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func PostEmpruntHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method, expected POST", http.StatusMethodNotAllowed)
@@ -244,7 +197,7 @@ func PostEmpruntHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.PostEmprunter(t, emprunt)
+	err := db.PostEmprunter(t, emprunt)
 	if err != nil {
 		http.Error(w, "Failed to insert EMPRUNT data: "+err.Error(), http.StatusInternalServerError)
 		return

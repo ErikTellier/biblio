@@ -2,20 +2,14 @@ package main
 
 import (
 	"biblioV2/db"
+	"database/sql"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func GetAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
-
+func GetAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	abonnes, err := db.GetAllAbonnes(t)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -26,15 +20,7 @@ func GetAbonneHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(abonnes)
 }
 
-func GetAbonneByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
-
+func GetAbonneByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
@@ -54,13 +40,7 @@ func GetAbonneByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(abonne)
 }
 
-func GetCategorieAbonneHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetCategorieAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	categorie_abonnes, err := db.GetAllCategorieAbonnes(t)
 	if err != nil {
@@ -72,14 +52,7 @@ func GetCategorieAbonneHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(categorie_abonnes)
 }
 
-func GetCategorieAbonneByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func GetCategorieAbonneByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -95,13 +68,7 @@ func GetCategorieAbonneByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(categorie_abonne)
 }
 
-func GetTypeOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetTypeOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	type_ouvrages, err := db.GetAllTypeOuvrage(t)
 	if err != nil {
@@ -113,14 +80,7 @@ func GetTypeOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(type_ouvrages)
 }
 
-func GetTypeOuvrageByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func GetTypeOuvrageByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -136,13 +96,7 @@ func GetTypeOuvrageByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(type_ouvrage)
 }
 
-func GetAuteurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	auteurs, err := db.GetAllAuteur(t)
 	if err != nil {
@@ -154,14 +108,7 @@ func GetAuteurHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(auteurs)
 }
 
-func GetAuteurByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func GetAuteurByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -182,13 +129,7 @@ func GetAuteurByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(auteur)
 }
 
-func GetEditeurHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	editeurs, err := db.GetAllEditeur(t)
 	if err != nil {
@@ -200,14 +141,7 @@ func GetEditeurHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(editeurs)
 }
 
-func GetEditeurByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func GetEditeurByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -228,13 +162,7 @@ func GetEditeurByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(editeur)
 }
 
-func GetOuvrageHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	ouvrages, err := db.GetAllOuvrage(t)
 	if err != nil {
@@ -246,14 +174,7 @@ func GetOuvrageHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ouvrages)
 }
 
-func GetOuvrageByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func GetOuvrageByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -274,13 +195,7 @@ func GetOuvrageByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ouvrage)
 }
 
-func GetEcritHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	ecrits, err := db.GetAllEcrit(t)
 	if err != nil {
@@ -292,14 +207,7 @@ func GetEcritHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ecrits)
 }
 
-func GetEcritByIdHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer t.Close()
+func GetEcritByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	//get id from url
 	idStr := mux.Vars(r)["id"]
@@ -320,13 +228,7 @@ func GetEcritByIdHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ecrit)
 }
 
-func GetEmprunterHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := db.OpenDBConnection()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer t.Close()
+func GetEmprunterHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	emprunters, err := db.GetAllEmprunter(t)
 	if err != nil {
@@ -338,7 +240,7 @@ func GetEmprunterHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(emprunters)
 }
 
-func GetEmpruntByIdHandler(w http.ResponseWriter, r *http.Request) {
+func GetEmpruntByIdHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	t, err := db.OpenDBConnection()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
