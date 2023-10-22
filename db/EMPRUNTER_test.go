@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func createTestEmprunter(testDB *sql.DB) error {
+func CreateTestEmprunter(testDB *sql.DB) error {
 
 	//create TYPE_OUVRAGE
 	_, err := testDB.Exec("INSERT INTO TYPE_OUVRAGE (ID_TYPE) VALUES ('type1'), ('type2'), ('type3')")
@@ -49,7 +49,7 @@ func createTestEmprunter(testDB *sql.DB) error {
 func TestGetAllEmprunter(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEmprunter(testDB)
+	err = CreateTestEmprunter(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -74,7 +74,7 @@ func TestGetAllEmprunter(t *testing.T) {
 func TestGetEmprunterById(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEmprunter(testDB)
+	err = CreateTestEmprunter(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -92,7 +92,7 @@ func TestGetEmprunterById(t *testing.T) {
 func TestDeleteEmprunter(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEmprunter(testDB)
+	err = CreateTestEmprunter(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -173,7 +173,7 @@ func TestPostEmprunter(t *testing.T) {
 func TestPutEmprunter(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEmprunter(testDB)
+	err = CreateTestEmprunter(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -203,7 +203,7 @@ func TestPutEmprunter(t *testing.T) {
 func TestRetourEmprunter(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEmprunter(testDB)
+	err = CreateTestEmprunter(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}

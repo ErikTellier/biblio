@@ -9,8 +9,18 @@ import (
 	"strconv"
 )
 
+// PutAbonneHandler
+// @Summary Mettre à jour un abonné existant
+// @Description Met à jour un abonné existant en utilisant les données JSON fournies dans la requête PUT
+// @ID update-abonne
+// @Produce json
+// @Consume json
+// @Param id path int true "ID de l'abonné à mettre à jour"
+// @Success 200 "Abonné mis à jour avec succès"
+// @Failure 400 "Échec de décodage des données JSON"
+// @Failure 500 "Échec de la mise à jour de l'abonné"
+// @Router /api/abonne/{id} [put]
 func PutAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
-	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -18,7 +28,6 @@ func PutAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 		return
 	}
 
-	//get abonne from body
 	var abonne db.ABONNE
 	err = json.NewDecoder(r.Body).Decode(&abonne)
 	if err != nil {
@@ -28,7 +37,6 @@ func PutAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	abonne.ID_ABONNE = id
 
-	//update abonne
 	err = db.PutAbonne(t, abonne)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -38,9 +46,19 @@ func PutAbonneHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// PutAuteurHandler
+// @Summary Mettre à jour un auteur existant
+// @Description Met à jour un auteur existant en utilisant les données JSON fournies dans la requête PUT
+// @ID update-auteur
+// @Produce json
+// @Consume json
+// @Param id path int true "ID de l'auteur à mettre à jour"
+// @Success 200 "Auteur mis à jour avec succès"
+// @Failure 400 "Échec de décodage des données JSON"
+// @Failure 500 "Échec de la mise à jour de l'auteur"
+// @Router /api/auteur/{id} [put]
 func PutAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
-	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -48,7 +66,6 @@ func PutAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 		return
 	}
 
-	//get auteur from body
 	var auteur db.AUTEUR
 	err = json.NewDecoder(r.Body).Decode(&auteur)
 	if err != nil {
@@ -58,7 +75,6 @@ func PutAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	auteur.ID_AUTEUR = id
 
-	//update auteur
 	err = db.PutAuteur(t, auteur)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -68,9 +84,19 @@ func PutAuteurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// PutEditeurHandler
+// @Summary Mettre à jour un éditeur existant
+// @Description Met à jour un éditeur existant en utilisant les données JSON fournies dans la requête PUT
+// @ID update-editeur
+// @Produce json
+// @Consume json
+// @Param id path int true "ID de l'éditeur à mettre à jour"
+// @Success 200 "Éditeur mis à jour avec succès"
+// @Failure 400 "Échec de décodage des données JSON"
+// @Failure 500 "Échec de la mise à jour de l'éditeur"
+// @Router /api/editeur/{id} [put]
 func PutEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
-	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -78,7 +104,6 @@ func PutEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 		return
 	}
 
-	//get editeur from body
 	var editeur db.EDITEUR
 	err = json.NewDecoder(r.Body).Decode(&editeur)
 	if err != nil {
@@ -88,7 +113,6 @@ func PutEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	editeur.ID_EDITEUR = id
 
-	//update editeur
 	err = db.PutEditeur(t, editeur)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -98,9 +122,19 @@ func PutEditeurHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// PutOuvrageHandler
+// @Summary Mettre à jour un ouvrage existant
+// @Description Met à jour un ouvrage existant en utilisant les données JSON fournies dans la requête PUT
+// @ID update-ouvrage
+// @Produce json
+// @Consume json
+// @Param id path int true "ID de l'ouvrage à mettre à jour"
+// @Success 200 "Ouvrage mis à jour avec succès"
+// @Failure 400 "Échec de décodage des données JSON"
+// @Failure 500 "Échec de la mise à jour de l'ouvrage"
+// @Router /api/ouvrage/{id} [put]
 func PutOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
-	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -108,7 +142,6 @@ func PutOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 		return
 	}
 
-	//get ouvrage from body
 	var ouvrage db.OUVRAGE
 	err = json.NewDecoder(r.Body).Decode(&ouvrage)
 	if err != nil {
@@ -118,7 +151,6 @@ func PutOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	ouvrage.ID_OUVRAGE = id
 
-	//update ouvrage
 	err = db.PutOuvrage(t, ouvrage)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -128,9 +160,19 @@ func PutOuvrageHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// PutEcritHandler
+// @Summary Mettre à jour un écrit existant
+// @Description Met à jour un écrit existant en utilisant les données JSON fournies dans la requête PUT
+// @ID update-ecrit
+// @Produce json
+// @Consume json
+// @Param id path int true "ID de l'écrit à mettre à jour"
+// @Success 200 "Écrit mis à jour avec succès"
+// @Failure 400 "Échec de décodage des données JSON"
+// @Failure 500 "Échec de la mise à jour de l'écrit"
+// @Router /api/ecrit/{id} [put]
 func PutEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
-	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -138,7 +180,6 @@ func PutEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 		return
 	}
 
-	//get ecrit from body
 	var ecrit db.ECRIT
 	err = json.NewDecoder(r.Body).Decode(&ecrit)
 	if err != nil {
@@ -148,7 +189,6 @@ func PutEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	ecrit.ID_ECRIT = id
 
-	//update ecrit
 	err = db.PutEcrit(t, ecrit)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -158,9 +198,19 @@ func PutEcritHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// PutEmpruntHandler
+// @Summary Mettre à jour un emprunt existant
+// @Description Met à jour un emprunt existant en utilisant les données JSON fournies dans la requête PUT
+// @ID update-emprunt
+// @Produce json
+// @Consume json
+// @Param id path int true "ID de l'emprunt à mettre à jour"
+// @Success 200 "Emprunt mis à jour avec succès"
+// @Failure 400 "Échec de décodage des données JSON"
+// @Failure 500 "Échec de la mise à jour de l'emprunt"
+// @Router /api/emprunt/{id} [put]
 func PutEmpruntHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
-	//get id from url
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -168,7 +218,6 @@ func PutEmpruntHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 		return
 	}
 
-	//get emprunter from body
 	var emprunter db.EMPRUNTER
 	err = json.NewDecoder(r.Body).Decode(&emprunter)
 	if err != nil {
@@ -178,7 +227,6 @@ func PutEmpruntHandler(w http.ResponseWriter, r *http.Request, t *sql.DB) {
 
 	emprunter.ID_EMPRUNT = id
 
-	//update emprunter
 	err = db.PutEmprunter(t, emprunter)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

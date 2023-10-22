@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func createTestCategoriesAbonnes(testDB *sql.DB) error {
+func CreateTestCategoriesAbonnes(testDB *sql.DB) error {
 	_, err := testDB.Exec("INSERT INTO CATEGORIE_ABONNE (ID_CATEGORIE) VALUES ('1'), ('2'), ('3')")
 	if err != nil {
 		return err
@@ -17,7 +17,7 @@ func createTestCategoriesAbonnes(testDB *sql.DB) error {
 func TestGetAllCategorieAbonnes(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestCategoriesAbonnes(testDB)
+	err = CreateTestCategoriesAbonnes(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -41,7 +41,7 @@ func TestGetAllCategorieAbonnes(t *testing.T) {
 func TestGetCategorieAbonneById(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestCategoriesAbonnes(testDB)
+	err = CreateTestCategoriesAbonnes(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -60,7 +60,7 @@ func TestGetCategorieAbonneById(t *testing.T) {
 func TestDeleteCategorieAbonne(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestCategoriesAbonnes(testDB)
+	err = CreateTestCategoriesAbonnes(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}

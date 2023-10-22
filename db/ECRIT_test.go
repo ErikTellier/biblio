@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func createTestEcrit(testDB *sql.DB) error {
+func CreateTestEcrit(testDB *sql.DB) error {
 	//create AUTEUR
 	_, err := testDB.Exec("INSERT INTO AUTEUR (ID_AUTEUR, NOM_AUTEUR, PRENOM_AUTEUR, TEL_AUTEUR, MAIL_AUTEUR, ADRESSE_AUTEUR) VALUES (1, 'nom1', 'prenom1', 'tel1', 'mail1', 'adresse1'), (2, 'nom2', 'prenom2', 'tel2', 'mail2', 'adresse2'), (3, 'nom3', 'prenom3', 'tel3', 'mail3', 'adresse3')")
 	if err != nil {
@@ -42,7 +42,7 @@ func createTestEcrit(testDB *sql.DB) error {
 func TestGetAllEcrit(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEcrit(testDB)
+	err = CreateTestEcrit(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -63,7 +63,7 @@ func TestGetAllEcrit(t *testing.T) {
 func TestGetEcritById(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEcrit(testDB)
+	err = CreateTestEcrit(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -81,7 +81,7 @@ func TestGetEcritById(t *testing.T) {
 func TestDeleteEcrit(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEcrit(testDB)
+	err = CreateTestEcrit(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -159,7 +159,7 @@ func TestPostEcrit(t *testing.T) {
 func TestPutEcrit(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEcrit(testDB)
+	err = CreateTestEcrit(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}

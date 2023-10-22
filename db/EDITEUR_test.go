@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func createTestEditeurs(testDB *sql.DB) error {
+func CreateTestEditeurs(testDB *sql.DB) error {
 	_, err := testDB.Exec("INSERT INTO EDITEUR (ID_EDITEUR, NOM_EDITEUR, TEL_EDITEUR, MAIL_EDITEUR, ADRESSE_EDITEUR) VALUES (1, 'nom1', 'tel1', 'mail1', 'adresse1'), (2, 'nom2', 'tel2', 'mail2', 'adresse2'), (3, 'nom3', 'tel3', 'mail3', 'adresse3')")
 	if err != nil {
 		return err
@@ -17,7 +17,7 @@ func createTestEditeurs(testDB *sql.DB) error {
 func TestGetAllEditeur(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEditeurs(testDB)
+	err = CreateTestEditeurs(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -42,7 +42,7 @@ func TestGetAllEditeur(t *testing.T) {
 func TestGetEditeurById(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEditeurs(testDB)
+	err = CreateTestEditeurs(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -60,7 +60,7 @@ func TestGetEditeurById(t *testing.T) {
 func TestDeleteEditeur(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEditeurs(testDB)
+	err = CreateTestEditeurs(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -111,7 +111,7 @@ func TestPostEditeur(t *testing.T) {
 func TestPutEditeur(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestEditeurs(testDB)
+	err = CreateTestEditeurs(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}

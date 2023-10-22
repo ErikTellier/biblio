@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func createTestTypeOuvrage(testDB *sql.DB) error {
+func CreateTestTypeOuvrage(testDB *sql.DB) error {
 	_, err := testDB.Exec("INSERT INTO TYPE_OUVRAGE (ID_TYPE) VALUES ('1'), ('2'), ('3')")
 	if err != nil {
 		return err
@@ -17,7 +17,7 @@ func createTestTypeOuvrage(testDB *sql.DB) error {
 func TestGetAllTypeOuvrage(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestTypeOuvrage(testDB)
+	err = CreateTestTypeOuvrage(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -43,7 +43,7 @@ func TestGetAllTypeOuvrage(t *testing.T) {
 func TestGetTypeOuvrageById(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestTypeOuvrage(testDB)
+	err = CreateTestTypeOuvrage(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
@@ -61,7 +61,7 @@ func TestGetTypeOuvrageById(t *testing.T) {
 func TestDeleteTypeOuvrage(t *testing.T) {
 	testDB, err := InitTestDB()
 
-	err = createTestTypeOuvrage(testDB)
+	err = CreateTestTypeOuvrage(testDB)
 	if err != nil {
 		t.Fatalf("Erreur lors de l'insertion de données de test : %v", err)
 	}
